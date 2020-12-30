@@ -26,7 +26,7 @@ jobs:
           aws-region: us-west-2
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
-          role-skip-session-tagging: true
+          role-skip-session-tagging: 'true'
 #      - name: Get ID
 #        run: aws sts get-caller-identity
 #      - name: Get Token
@@ -38,7 +38,7 @@ jobs:
       - name: Auth kubeconfig
         run: |
           echo "$CONFIG" > kubeconfig
-          KUBECONFIG=kubeconfig kubectl config set-credentials github-actions-dolt --exec-api-version=client.authentication.k8s.io/v1alpha1 --exec-command=aws-iam-authenticator --exec-arg=token --exec-arg=-i --exec-arg=eks-cluster-1 --exec-arg=-r --exec-arg=$ROLE
+          KUBECONFIG=kubeconfig kubectl config set-credentials github-actions-dolt --exec-api-version=client.authentication.k8s.io/v1alpha1 --exec-command=aws-iam-authenticator --exec-arg=token --exec-arg=-i --exec-arg=eks-cluster-1
           KUBECONFIG=kubeconfig kubectl config set-context github-actions-dolt-context --cluster=eks-cluster-1 --user=github-actions-dolt --namespace=performance-benchmarking
           KUBECONFIG=kubeconfig kubectl config use-context github-actions-dolt-context
           KUBECONFIG=kubeconfig kubectl config view
